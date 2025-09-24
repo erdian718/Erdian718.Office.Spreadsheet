@@ -8,18 +8,18 @@ namespace Erdian718.Office.Spreadsheet;
 public abstract class CellCollection : IEnumerable<Cell>
 {
     /// <summary>
-    /// Gets a cell from the collection by its numeric index.
+    /// Gets a cell from the collection by column index.
     /// </summary>
     /// <param name="index">The zero-based index of the cell to retrieve.</param>
     /// <returns>The Cell at the specified index.</returns>
     public abstract Cell this[int index] { get; }
 
     /// <summary>
-    /// Gets a cell from the collection by its reference identifier.
+    /// Gets a cell from the collection by column reference.
     /// </summary>
     /// <param name="reference">The cell reference.</param>
     /// <returns>The Cell corresponding to the specified reference.</returns>
-    public abstract Cell this[ReadOnlySpan<char> reference] { get; }
+    public virtual Cell this[ReadOnlySpan<char> reference] => this[SpreadsheetUtils.ColumnIndex(reference)];
 
     /// <summary>
     /// Returns an enumerator that iterates through the collection of cells.
