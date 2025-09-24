@@ -14,13 +14,18 @@ public abstract class Workbook
     /// Synchronously saves the workbook content to the specified stream.
     /// </summary>
     /// <param name="stream">The target stream to receive the workbook content.</param>
-    public abstract void Save(Stream stream);
+    public virtual void Save(Stream stream) =>
+        SaveAsync(stream).ConfigureAwait(false).GetAwaiter().GetResult();
 
     /// <summary>
     /// Synchronously saves the workbook content to the specified file path.
     /// </summary>
     /// <param name="path">The target file path where the workbook will be saved.</param>
-    public abstract void Save(string path);
+    public virtual void Save(string path)
+    {
+        using var stream = File.Create(path);
+        Save(stream);
+    }
 
     /// <summary>
     /// Asynchronously saves the workbook content to the specified stream.
@@ -36,5 +41,12 @@ public abstract class Workbook
     /// <param name="path">The target file path where the workbook will be saved.</param>
     /// <param name="cancellationToken">The Cancellation token that can be used to cancel the save operation.</param>
     /// <returns>A Task representing the asynchronous save operation.</returns>
-    public abstract Task SaveAsync(string path, CancellationToken cancellationToken = default);
+    public virtual async Task SaveAsync(string path, CancellationToken cancellationToken = default)
+    {
+        var stream = File.Create(path);
+        await using (stream.ConfigureAwait(false))
+        {
+            await SaveAsync(stream, cancellationToken).ConfigureAwait(false);
+        }
+    }
 }
