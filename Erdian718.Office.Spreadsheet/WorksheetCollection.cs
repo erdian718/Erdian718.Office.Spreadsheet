@@ -12,14 +12,28 @@ public abstract class WorksheetCollection : IEnumerable<Worksheet>
     /// </summary>
     /// <param name="index">The zero-based index of the worksheet to retrieve.</param>
     /// <returns>The Worksheet at the specified index.</returns>
-    public abstract Worksheet this[int index] { get; }
+    public virtual Worksheet this[int index] =>
+        this.ElementAtOrDefault(index) ?? throw new InvalidOperationException($"Worksheet [{index}] is not found.");
 
     /// <summary>
     /// Gets a worksheet from the collection by its name.
     /// </summary>
     /// <param name="name">The name of the worksheet to retrieve.</param>
     /// <returns>The Worksheet with the specified name.</returns>
-    public abstract Worksheet this[ReadOnlySpan<char> name] { get; }
+    public virtual Worksheet this[ReadOnlySpan<char> name]
+    {
+        get
+        {
+            foreach (var worksheet in this)
+            {
+                if (name.SequenceEqual(worksheet.Name))
+                {
+                    return worksheet;
+                }
+            }
+            throw new InvalidOperationException($"Worksheet [{name}] is not found.");
+        }
+    }
 
     /// <summary>
     /// Returns an enumerator that iterates through the collection of worksheets.
