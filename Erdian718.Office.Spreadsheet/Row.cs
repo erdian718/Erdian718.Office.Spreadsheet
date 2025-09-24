@@ -8,10 +8,15 @@ public abstract class Row
     /// <summary>
     /// Gets a value indicating whether the row is blank.
     /// </summary>
-    public abstract bool IsBlank { get; }
+    public virtual bool IsBlank => Cells.All(cell => cell.IsBlank);
 
     /// <summary>
     /// Gets a value indicating whether the row is hidden in the worksheet view.
     /// </summary>
     public abstract bool IsHidden { get; }
+
+    /// <summary>
+    /// Gets a collection of cells in the row.
+    /// </summary>
+    public abstract CellCollection Cells { get; }
 }
