@@ -8,7 +8,7 @@ namespace Erdian718.Office.Spreadsheet;
 /// <param name="cells">The cells in the collection.</param>
 public class CellCollection(IEnumerable<Cell> cells) : IEnumerable<Cell>
 {
-    private static readonly Cell _emptyCell = new EmptyCell();
+    private static readonly Cell s_emptyCell = new EmptyCell();
 
     private readonly Cell[] _cells = [.. cells];
 
@@ -17,7 +17,7 @@ public class CellCollection(IEnumerable<Cell> cells) : IEnumerable<Cell>
     /// </summary>
     /// <param name="index">The zero-based index of the cell to retrieve.</param>
     /// <returns>The Cell at the specified index.</returns>
-    public Cell this[int index] => index < _cells.Length ? _cells[index] : _emptyCell;
+    public Cell this[int index] => index < _cells.Length ? _cells[index] : s_emptyCell;
 
     /// <summary>
     /// Gets a cell from the collection by column reference.
