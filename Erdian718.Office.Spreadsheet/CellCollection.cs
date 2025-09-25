@@ -5,6 +5,7 @@ namespace Erdian718.Office.Spreadsheet;
 /// <summary>
 /// Represents a collection of cells in a row.
 /// </summary>
+/// <param name="cells">The cells in the collection.</param>
 public class CellCollection(IEnumerable<Cell> cells) : IEnumerable<Cell>
 {
     private static readonly Cell _emptyCell = new EmptyCell();
@@ -26,7 +27,7 @@ public class CellCollection(IEnumerable<Cell> cells) : IEnumerable<Cell>
     public Cell this[ReadOnlySpan<char> reference] => this[SpreadsheetUtils.ColumnIndex(reference)];
 
     /// <summary>
-    /// Gets the number of elements contained in the collection.
+    /// Gets the number of items contained in the collection.
     /// </summary>
     public int Length => _cells.Length;
 
