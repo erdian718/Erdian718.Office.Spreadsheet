@@ -122,4 +122,19 @@ public abstract class Worksheet
         var (rowIndex, columnIndex) = SpreadsheetUtils.CellIndex(reference);
         return GetCellAsync(rowIndex, columnIndex, cancellationToken);
     }
+
+    /// <summary>
+    /// Asynchronously disposes the resources used by the worksheet.
+    /// </summary>
+    /// <returns>A ValueTask that represents the asynchronous dispose operation.</returns>
+    internal async ValueTask DisposeAsync()
+    {
+        var enumerator = _rowEnumerator;
+        if (enumerator is not null)
+        {
+            await enumerator.DisposeAsync().ConfigureAwait(false);
+            _rowEnumerator = null;
+            _rowIndex = -1;
+        }
+    }
 }

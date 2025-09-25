@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents a spreadsheet workbook. Acts as a top-level container for managing worksheets.
 /// </summary>
-public abstract class Workbook
+public abstract class Workbook : IDisposable, IAsyncDisposable
 {
     /// <summary>
     /// Gets the collection of worksheets contained in the current workbook.
@@ -47,6 +47,37 @@ public abstract class Workbook
         await using (stream.ConfigureAwait(false))
         {
             await SaveAsync(stream, cancellationToken).ConfigureAwait(false);
+        }
+    }
+
+    /// <summary>
+    /// Synchronously disposes the resources used by the workbook.
+    /// </summary>
+    public virtual void Dispose()
+    {
+        DisposeCoreAsync().AsTask().ConfigureAwait(false).GetAwaiter().GetResult();
+        GC.SuppressFinalize(this);
+    }
+
+    /// <summary>
+    /// Asynchronously disposes the resources used by the workbook.
+    /// </summary>
+    /// <returns>A ValueTask that represents the asynchronous dispose operation.</returns>
+    public virtual async ValueTask DisposeAsync()
+    {
+        await DisposeCoreAsync().ConfigureAwait(false);
+        GC.SuppressFinalize(this);
+    }
+
+    /// <summary>
+    /// Asynchronously disposes the resources used by the workbook.
+    /// </summary>
+    /// <returns>A ValueTask that represents the asynchronous dispose operation.</returns>
+    private async ValueTask DisposeCoreAsync()
+    {
+        foreach (var worksheet in Worksheets)
+        {
+            await worksheet.DisposeAsync().ConfigureAwait(false);
         }
     }
 }
