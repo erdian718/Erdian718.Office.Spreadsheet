@@ -6,8 +6,6 @@
 /// <param name="rows">The rows in the collection.</param>
 public class RowCollection(IAsyncEnumerable<Row> rows) : IAsyncEnumerable<Row>
 {
-    private static readonly Row s_emptyRow = new EmptyRow();
-
     private int _index = -1;
     private IAsyncEnumerator<Row>? _enumerator;
     private readonly IAsyncEnumerable<Row> _rows = rows;
@@ -39,7 +37,7 @@ public class RowCollection(IAsyncEnumerable<Row> rows) : IAsyncEnumerable<Row>
         {
             return enumerator.Current;
         }
-        return s_emptyRow;
+        return Row.Empty;
     }
 
     /// <summary>
@@ -111,23 +109,5 @@ public class RowCollection(IAsyncEnumerable<Row> rows) : IAsyncEnumerable<Row>
             _index = -1;
             _enumerator = null;
         }
-    }
-
-    /// <summary>
-    /// Represents an empty row.
-    /// </summary>
-    internal class EmptyRow : Row
-    {
-        private static readonly CellCollection s_cells = new([]);
-
-        /// <summary>
-        /// Gets a value indicating whether the row is blank.
-        /// </summary>
-        public override bool IsHidden => false;
-
-        /// <summary>
-        /// Gets a collection of cells in the row.
-        /// </summary>
-        public override CellCollection Cells => s_cells;
     }
 }

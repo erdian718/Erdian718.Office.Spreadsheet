@@ -21,7 +21,7 @@ public abstract class Workbook : IDisposable, IAsyncDisposable
     /// Synchronously saves the workbook content to the specified file path.
     /// </summary>
     /// <param name="path">The target file path where the workbook will be saved.</param>
-    public virtual void Save(string path)
+    public void Save(string path)
     {
         using var stream = File.Create(path);
         Save(stream);
@@ -41,7 +41,7 @@ public abstract class Workbook : IDisposable, IAsyncDisposable
     /// <param name="path">The target file path where the workbook will be saved.</param>
     /// <param name="cancellationToken">The Cancellation token that can be used to cancel the save operation.</param>
     /// <returns>A Task representing the asynchronous save operation.</returns>
-    public virtual async Task SaveAsync(string path, CancellationToken cancellationToken = default)
+    public async Task SaveAsync(string path, CancellationToken cancellationToken = default)
     {
         var stream = File.Create(path);
         await using (stream.ConfigureAwait(false))

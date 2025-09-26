@@ -3,8 +3,13 @@
 /// <summary>
 /// Represents a row in a worksheet. Contains a collection of cells, organized by column position.
 /// </summary>
-public abstract class Row
+public class Row
 {
+    /// <summary>
+    /// Represents a empty row.
+    /// </summary>
+    internal protected static Row Empty { get; } = new();
+
     /// <summary>
     /// Gets a value indicating whether the row is blank.
     /// </summary>
@@ -13,10 +18,10 @@ public abstract class Row
     /// <summary>
     /// Gets a value indicating whether the row is hidden in the worksheet view.
     /// </summary>
-    public abstract bool IsHidden { get; }
+    public virtual bool IsHidden => false;
 
     /// <summary>
     /// Gets a collection of cells in the row.
     /// </summary>
-    public abstract CellCollection Cells { get; }
+    public virtual CellCollection Cells { get; } = new([]);
 }

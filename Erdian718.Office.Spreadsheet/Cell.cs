@@ -3,8 +3,13 @@
 /// <summary>
 /// Represents a cell in a row. Stores a single data value.
 /// </summary>
-public abstract class Cell
+public class Cell
 {
+    /// <summary>
+    /// Represents a empty cell.
+    /// </summary>
+    internal protected static Cell Empty { get; } = new();
+
     /// <summary>
     /// Gets a value indicating whether the cell is blank.
     /// </summary>
@@ -20,7 +25,7 @@ public abstract class Cell
     /// <summary>
     /// Gets the underlying raw value stored in the cell.
     /// </summary>
-    public abstract object? Value { get; }
+    public virtual object? Value => null;
 
     /// <summary>
     /// Retrieves the cell's value as a string.
