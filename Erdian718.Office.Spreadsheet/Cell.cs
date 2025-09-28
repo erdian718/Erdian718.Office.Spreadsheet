@@ -1,7 +1,7 @@
 ﻿namespace Erdian718.Office.Spreadsheet;
 
 /// <summary>
-/// Represents a cell in a row. Stores a single data value.
+/// Represents a cell in a row.
 /// </summary>
 public class Cell
 {
@@ -13,7 +13,7 @@ public class Cell
     /// <summary>
     /// Gets a value indicating whether the cell is blank.
     /// </summary>
-    public virtual bool IsBlank
+    public bool IsBlank
     {
         get
         {
@@ -115,16 +115,7 @@ public class Cell
     /// Retrieves the cell's value as a DateTime object.
     /// </summary>
     /// <returns>The cell's value as a DateTime object.</returns>
-    public virtual DateTime GetDateTime()
-    {
-        var value = Value;
-        if (value is double v)
-        {
-            var epoch = new DateTime(1900, 1, 1);
-            return epoch.AddDays(v < 60 ? v - 1 : v - 2);
-        }
-        return Convert.ToDateTime(value);
-    }
+    public virtual DateTime GetDateTime() => Convert.ToDateTime(Value);
 
     /// <summary>
     /// Retrieves the cell's value as a DateOnly object.
@@ -151,7 +142,7 @@ public class Cell
     /// Retrieves the cell's value as a string, or null.
     /// </summary>
     /// <returns>The cell's value as a string, or null.</returns>
-    public virtual string? GetStringOrNull()
+    public string? GetStringOrNull()
     {
         try { return GetString(); } catch { return null; }
     }
@@ -160,7 +151,7 @@ public class Cell
     /// Retrieves the cell's value as a char, or null.
     /// </summary>
     /// <returns>The cell's value as a char, or null.</returns>
-    public virtual char? GetCharOrNull()
+    public char? GetCharOrNull()
     {
         try { return GetChar(); } catch { return null; }
     }
@@ -169,7 +160,7 @@ public class Cell
     /// Retrieves the cell's value as a boolean, or null.
     /// </summary>
     /// <returns>The cell's value as a boolean, or null.</returns>
-    public virtual bool? GetBooleanOrNull()
+    public bool? GetBooleanOrNull()
     {
         try { return GetBoolean(); } catch { return null; }
     }
@@ -178,7 +169,7 @@ public class Cell
     /// Retrieves the cell's value as a single-precision floating-point number, or null.
     /// </summary>
     /// <returns>The cell's value as a single-precision floating-point number, or null.</returns>
-    public virtual float? GetSingleOrNull()
+    public float? GetSingleOrNull()
     {
         try { return GetSingle(); } catch { return null; }
     }
@@ -187,7 +178,7 @@ public class Cell
     /// Retrieves the cell's value as a double-precision floating-point number, or null.
     /// </summary>
     /// <returns>The cell's value as a double-precision floating-point number, or null.</returns>
-    public virtual double? GetDoubleOrNull()
+    public double? GetDoubleOrNull()
     {
         try { return GetDouble(); } catch { return null; }
     }
@@ -196,7 +187,7 @@ public class Cell
     /// Retrieves the cell's value as a decimal, or null.
     /// </summary>
     /// <returns>The cell's value as a decimal, or null.</returns>
-    public virtual decimal? GetDecimalOrNull()
+    public decimal? GetDecimalOrNull()
     {
         try { return GetDecimal(); } catch { return null; }
     }
@@ -205,7 +196,7 @@ public class Cell
     /// Retrieves the cell's value as a 8-bit signed integer, or null.
     /// </summary>
     /// <returns>The cell's value as a 8-bit signed integer, or null.</returns>
-    public virtual sbyte? GetSByteOrNull()
+    public sbyte? GetSByteOrNull()
     {
         try { return GetSByte(); } catch { return null; }
     }
@@ -214,7 +205,7 @@ public class Cell
     /// Retrieves the cell's value as a 8-bit unsigned integer, or null.
     /// </summary>
     /// <returns>The cell's value as a 8-bit unsigned integer, or null.</returns>
-    public virtual byte? GetByteOrNull()
+    public byte? GetByteOrNull()
     {
         try { return GetByte(); } catch { return null; }
     }
@@ -223,7 +214,7 @@ public class Cell
     /// Retrieves the cell's value as a 16-bit signed integer, or null.
     /// </summary>
     /// <returns>The cell's value as a 16-bit signed integer, or null.</returns>
-    public virtual short? GetInt16OrNull()
+    public short? GetInt16OrNull()
     {
         try { return GetInt16(); } catch { return null; }
     }
@@ -232,7 +223,7 @@ public class Cell
     /// Retrieves the cell's value as a 16-bit unsigned integer, or null.
     /// </summary>
     /// <returns>The cell's value as a 16-bit unsigned integer, or null.</returns>
-    public virtual ushort? GetUInt16OrNull()
+    public ushort? GetUInt16OrNull()
     {
         try { return GetUInt16(); } catch { return null; }
     }
@@ -241,7 +232,7 @@ public class Cell
     /// Retrieves the cell's value as a 32-bit signed integer, or null.
     /// </summary>
     /// <returns>The cell's value as a 32-bit signed integer, or null.</returns>
-    public virtual int? GetInt32OrNull()
+    public int? GetInt32OrNull()
     {
         try { return GetInt32(); } catch { return null; }
     }
@@ -250,7 +241,7 @@ public class Cell
     /// Retrieves the cell's value as a 32-bit unsigned integer, or null.
     /// </summary>
     /// <returns>The cell's value as a 32-bit unsigned integer, or null.</returns>
-    public virtual uint? GetUInt32OrNull()
+    public uint? GetUInt32OrNull()
     {
         try { return GetUInt32(); } catch { return null; }
     }
@@ -259,7 +250,7 @@ public class Cell
     /// Retrieves the cell's value as a 64-bit signed integer, or null.
     /// </summary>
     /// <returns>The cell's value as a 64-bit signed integer, or null.</returns>
-    public virtual long? GetInt64OrNull()
+    public long? GetInt64OrNull()
     {
         try { return GetInt64(); } catch { return null; }
     }
@@ -268,7 +259,7 @@ public class Cell
     /// Retrieves the cell's value as a 64-bit unsigned integer, or null.
     /// </summary>
     /// <returns>The cell's value as a 64-bit unsigned integer, or null.</returns>
-    public virtual ulong? GetUInt64OrNull()
+    public ulong? GetUInt64OrNull()
     {
         try { return GetUInt64(); } catch { return null; }
     }
@@ -277,7 +268,7 @@ public class Cell
     /// Retrieves the cell's value as a DateTime object, or null.
     /// </summary>
     /// <returns>The cell's value as a DateTime object, or null.</returns>
-    public virtual DateTime? GetDateTimeOrNull()
+    public DateTime? GetDateTimeOrNull()
     {
         try { return GetDateTime(); } catch { return null; }
     }
@@ -286,7 +277,7 @@ public class Cell
     /// Retrieves the cell's value as a DateOnly object, or null.
     /// </summary>
     /// <returns>The cell's value as a DateOnly object, or null.</returns>
-    public virtual DateOnly? GetDateOnlyOrNull()
+    public DateOnly? GetDateOnlyOrNull()
     {
         try { return GetDateOnly(); } catch { return null; }
     }
@@ -295,7 +286,7 @@ public class Cell
     /// Retrieves the cell's value as a TimeOnly object, or null.
     /// </summary>
     /// <returns>The cell's value as a TimeOnly object, or null.</returns>
-    public virtual TimeOnly? GetTimeOnlyOrNull()
+    public TimeOnly? GetTimeOnlyOrNull()
     {
         try { return GetTimeOnly(); } catch { return null; }
     }
@@ -304,7 +295,7 @@ public class Cell
     /// Retrieves the cell's value as a DateTimeOffset object, or null.
     /// </summary>
     /// <returns>The cell's value as a DateTimeOffset object, or null.</returns>
-    public virtual DateTimeOffset? GetDateTimeOffsetOrNull()
+    public DateTimeOffset? GetDateTimeOffsetOrNull()
     {
         try { return GetDateTimeOffset(); } catch { return null; }
     }

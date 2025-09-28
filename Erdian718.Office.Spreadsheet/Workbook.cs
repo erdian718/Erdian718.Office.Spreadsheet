@@ -14,8 +14,7 @@ public abstract class Workbook : IDisposable, IAsyncDisposable
     /// Synchronously saves the workbook content to the specified stream.
     /// </summary>
     /// <param name="stream">The target stream to receive the workbook content.</param>
-    public virtual void Save(Stream stream) =>
-        SaveAsync(stream).ConfigureAwait(false).GetAwaiter().GetResult();
+    public abstract void Save(Stream stream);
 
     /// <summary>
     /// Synchronously saves the workbook content to the specified file path.
@@ -23,7 +22,7 @@ public abstract class Workbook : IDisposable, IAsyncDisposable
     /// <param name="path">The target file path where the workbook will be saved.</param>
     public void Save(string path)
     {
-        using var stream = File.Create(path);
+        using var stream = File.Create(path, 4096, FileOptions.SequentialScan);
         Save(stream);
     }
 
@@ -43,7 +42,7 @@ public abstract class Workbook : IDisposable, IAsyncDisposable
     /// <returns>A Task representing the asynchronous save operation.</returns>
     public async Task SaveAsync(string path, CancellationToken cancellationToken = default)
     {
-        var stream = File.Create(path);
+        var stream = File.Create(path, 4096, FileOptions.Asynchronous | FileOptions.SequentialScan);
         await using (stream.ConfigureAwait(false))
         {
             await SaveAsync(stream, cancellationToken).ConfigureAwait(false);
@@ -53,31 +52,11 @@ public abstract class Workbook : IDisposable, IAsyncDisposable
     /// <summary>
     /// Synchronously disposes the resources used by the workbook.
     /// </summary>
-    public virtual void Dispose()
-    {
-        DisposeCoreAsync().AsTask().ConfigureAwait(false).GetAwaiter().GetResult();
-        GC.SuppressFinalize(this);
-    }
+    public abstract void Dispose();
 
     /// <summary>
     /// Asynchronously disposes the resources used by the workbook.
     /// </summary>
     /// <returns>A ValueTask that represents the asynchronous dispose operation.</returns>
-    public virtual async ValueTask DisposeAsync()
-    {
-        await DisposeCoreAsync().ConfigureAwait(false);
-        GC.SuppressFinalize(this);
-    }
-
-    /// <summary>
-    /// Asynchronously disposes the resources used by the workbook.
-    /// </summary>
-    /// <returns>A ValueTask that represents the asynchronous dispose operation.</returns>
-    private async ValueTask DisposeCoreAsync()
-    {
-        foreach (var worksheet in Worksheets)
-        {
-            await worksheet.DisposeAsync().ConfigureAwait(false);
-        }
-    }
+    public abstract ValueTask DisposeAsync();
 }

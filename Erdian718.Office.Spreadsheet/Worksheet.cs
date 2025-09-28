@@ -58,10 +58,4 @@ public abstract class Worksheet
         var (rowIndex, columnIndex) = SpreadsheetUtils.CellIndex(reference);
         return GetCellAsync(rowIndex, columnIndex, cancellationToken);
     }
-
-    /// <summary>
-    /// Asynchronously disposes the resources used by the worksheet.
-    /// </summary>
-    /// <returns>A ValueTask that represents the asynchronous dispose operation.</returns>
-    internal ValueTask DisposeAsync() => Rows.DisposeAsync();
 }

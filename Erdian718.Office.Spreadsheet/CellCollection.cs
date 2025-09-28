@@ -5,17 +5,21 @@ namespace Erdian718.Office.Spreadsheet;
 /// <summary>
 /// Represents a collection of cells in a row.
 /// </summary>
-/// <param name="cells">The cells in the collection.</param>
-public class CellCollection(IEnumerable<Cell> cells) : IEnumerable<Cell>
+public class CellCollection : IEnumerable<Cell>
 {
-    private readonly Cell[] _cells = [.. cells];
-
     /// <summary>
     /// Gets a cell from the collection by column index.
     /// </summary>
     /// <param name="index">The zero-based index of the cell to retrieve.</param>
     /// <returns>The Cell at the specified index.</returns>
-    public Cell this[int index] => index < _cells.Length ? _cells[index] : Cell.Empty;
+    public virtual Cell this[int index]
+    {
+        get
+        {
+            if (index < 0) throw new ArgumentOutOfRangeException($"Invalid column index [{index}].");
+            return Cell.Empty;
+        }
+    }
 
     /// <summary>
     /// Gets a cell from the collection by column reference.
@@ -27,17 +31,17 @@ public class CellCollection(IEnumerable<Cell> cells) : IEnumerable<Cell>
     /// <summary>
     /// Gets the number of items contained in the collection.
     /// </summary>
-    public int Length => _cells.Length;
+    public virtual int Length => 0;
 
     /// <summary>
     /// Returns an enumerator that iterates through the collection of cells.
     /// </summary>
     /// <returns>An IEnumerator&lt;Cell&gt; that can be used to iterate through the collection.</returns>
-    public IEnumerator<Cell> GetEnumerator() => ((IEnumerable<Cell>)_cells).GetEnumerator();
+    public virtual IEnumerator<Cell> GetEnumerator() => Enumerable.Empty<Cell>().GetEnumerator();
 
     /// <summary>
     /// Explicit implementation of IEnumerable.GetEnumerator.
     /// </summary>
     /// <returns>An IEnumerator that can be used to iterate through the collection.</returns>
-    IEnumerator IEnumerable.GetEnumerator() => _cells.GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }

@@ -13,7 +13,7 @@ public class Row
     /// <summary>
     /// Gets a value indicating whether the row is blank.
     /// </summary>
-    public virtual bool IsBlank => Cells.All(cell => cell.IsBlank);
+    public bool IsBlank => Cells.All(cell => cell.IsBlank);
 
     /// <summary>
     /// Gets a value indicating whether the row is hidden in the worksheet view.
@@ -23,5 +23,5 @@ public class Row
     /// <summary>
     /// Gets a collection of cells in the row.
     /// </summary>
-    public virtual CellCollection Cells { get; } = new([]);
+    public virtual CellCollection Cells { get; } = new();
 }
